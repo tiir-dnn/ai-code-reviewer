@@ -42,6 +42,13 @@ Create a .env file:
 
 GEMINI_API_KEY=your_api_key_herea
 
+## Future Improvements
+- Add support for reviewing multiple files
+- Add code quality scoring
+- Build a Streamlit web interface
+- Export reports as PDF
+- Support additional review agents
+
 ## Architecture
 ```text
 Code File (test.py)
