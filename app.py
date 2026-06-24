@@ -12,10 +12,10 @@ client = genai.Client(
 
 
 def security_agent(code):
-
-    response = client.models.generate_content(
-        model=MODEL_NAME,
-        contents=f"""
+    try:
+        response = client.models.generate_content(
+            model=MODEL_NAME,
+            contents=f"""
 You are a security code reviewer.
 
 Review the following code.
@@ -32,15 +32,18 @@ Code:
 
 {code}
 """
-    )
+        )
+        return response.text
 
-    return response.text
+    except Exception as e:
+        return f"Security Agent Error: {e}"
 
 
 def readability_agent(code):
-    response = client.models.generate_content(
-        model=MODEL_NAME,
-        contents=f"""
+    try:
+        response = client.models.generate_content(
+            model=MODEL_NAME,
+            contents=f"""
 You are a readability and maintainability code reviewer.
 
 Review the following code.
@@ -54,18 +57,22 @@ Look for:
 
 Return findings in bullet points.
 
-Code: 
+Code:
 
 {code}
 """
-    )
-    return response.text
+        )
+        return response.text
+
+    except Exception as e:
+        return f"Readability Agent Error: {e}"
 
 
 def performance_agent(code):
-    response = client.models.generate_content(
-        model=MODEL_NAME,
-        contents=f"""
+    try:
+        response = client.models.generate_content(
+            model=MODEL_NAME,
+            contents=f"""
 You are a performance code reviewer.
 
 Review the following code.
@@ -83,16 +90,21 @@ Return findings in bullet points.
 If there are no major performance issues, clearly state it.
 
 Code:
+
 {code}
 """
-    )
-    return response.text
+        )
+        return response.text
+
+    except Exception as e:
+        return f"Performance Agent Error: {e}"
 
 
 def bug_agent(code):
-    response = client.models.generate_content(
-        model=MODEL_NAME,
-        contents=f"""
+    try:
+        response = client.models.generate_content(
+            model=MODEL_NAME,
+            contents=f"""
 You are a bug detection code reviewer.
 
 Review the following code.
@@ -107,17 +119,22 @@ Look for:
 Return findings in bullet points.
 
 Code:
+
 {code}
 """
-    )
-    return response.text
+        )
+        return response.text
+
+    except Exception as e:
+        return f"Bug Agent Error: {e}"
 
 
 def summary_agent(security_report, readability_report, performance_report, bug_report):
-    response = client.models.generate_content(
-        model=MODEL_NAME,
-        contents=f"""
-You are a pro software engineer reviewer.
+    try:
+        response = client.models.generate_content(
+            model=MODEL_NAME,
+            contents=f"""
+You are a senior software engineering reviewer.
 
 Summarize the following reports.
 
@@ -136,16 +153,23 @@ Bug Report:
 Provide:
 1. Overall risk level
 2. Most critical issues
-3. Recommend fixes
+3. Recommended fixes
 4. Final summary
 
 Return findings in bullet points.
 """
-    )
-    return response.text
+        )
+        return response.text
 
-with open("test.py", "r") as file:
+    except Exception as e:
+        return f"Summary Agent Error: {e}"
+
+
+filename = input("Enter the Python file name to review: ")
+
+with open(filename, "r") as file:
     code = file.read()
+
 
 print("Running Security Agent...")
 security_report = security_agent(code)
@@ -167,7 +191,7 @@ final_report = summary_agent(
     bug_report
 )
 
-print("===== SECURITY REPORT =====")
+print("\n===== SECURITY REPORT =====")
 print(security_report)
 
 print("\n===== READABILITY REPORT =====")

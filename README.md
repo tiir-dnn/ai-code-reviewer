@@ -40,7 +40,11 @@ python app.py
 
 Create a .env file:
 
-GEMINI_API_KEY=your_api_key_herea
+GEMINI_API_KEY=your_api_key_here
+
+## Demo
+Example run:
+![Demo](screenshots/demo-run.png)
 
 ## Future Improvements
 - Add support for reviewing multiple files
@@ -48,6 +52,7 @@ GEMINI_API_KEY=your_api_key_herea
 - Build a Streamlit web interface
 - Export reports as PDF
 - Support additional review agents
+
 
 ## Architecture
 ```text
